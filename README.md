@@ -6,7 +6,7 @@
 
 ## Installation
 ```shell
-npm install sw-workman
+npm install workman-sw
 ```
 
 ## Changelog
@@ -19,7 +19,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 
 ## Security
-If you discover any security related issues, please email hello@acadea.io instead of using the issue tracker.
+If you discover any security related issues, please email opensource@acadea.io instead of using the issue tracker.
 
 ## Credits
 - [Sam Ngu](https://github.com/sam-ngu)
