@@ -1,4 +1,5 @@
-import { createResponse } from "./response";
+import { createResponse } from "./utils/response";
+import { http } from "./http";
 
 export default (eventType = "fetch") => {
     const middlewares = [];
@@ -8,12 +9,11 @@ export default (eventType = "fetch") => {
         throw new Error("Unsupported event " + eventType);
     }
 
-    function runMiddlewares(event) {
+    function runMiddlewares(event, response) {
         const request = event.request.clone();
         const method = request.method.toLowerCase();
         const url = new URL(request.url);
 
-        const response = createResponse();
         
         /**
          * Run the next middleware
@@ -36,17 +36,7 @@ export default (eventType = "fetch") => {
     }
 
     return {
-        // each item should look like:
-        // {
-        //     uri: 'url',
-        //     handler: a handler function,
-        //     options: an option object
-        // }
-        _getHandlers: [],
-        _postHandlers: [],
-        _patchHandlers: [],
-        _deleteHandlers: [],
-        _putHandlers: [],
+        ...http,
 
         use(middleware) {
             middlewares.push(middleware);
@@ -54,51 +44,17 @@ export default (eventType = "fetch") => {
 
         listen() {
             self.addEventListener(eventType, async (event) => {
-                runMiddlewares(event);
+                // init response object
+                const response = createResponse();
 
-                // startwith or exact match?
-                // allow user to pass in matcher function
-                // wildcard?
-                // regex?
-                // TODO: check for options
-                // FIXME: this is only applicable to fetch request
-                const handlers = this[`_${event.request.method}Handler`];
+                runMiddlewares(event, response);
 
-                // get the correct handlers array
-                if (handlers === undefined) {
-                    console.log("Unsupported method, relaying request to fetch.");
-                    event.respondWith(fetch(request));
-                    return;
+                if(eventType.toLowerCase() === 'fetch'){
+                    this.handleFetch(event, response)
                 }
-
-                const found = this._getHandlers.find((handlerObject) => {
-                    return url.pathname === handlerObject.uri;
-                });
-
             });
         },
 
-        get(uri, handler, options) {
-            this.use((req, res, next) => {
-
-            })
-            this._getHandlers.push({ uri, handler, options });
-        },
-
-        post(uri, handler, options) {
-            this._postHandlers.push({ uri, handler, options });
-        },
-
-        patch(uri, handler, options) {
-            this._patchHandlers.push({ uri, handler, options });
-        },
-
-        put(uri, handler, options) {
-            this._putHandlers.push({ uri, handler, options });
-        },
-
-        delete(uri, handler, options) {
-            this._deleteHandlers.push({ uri, handler, options });
-        },
+       
     };
 };
