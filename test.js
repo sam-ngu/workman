@@ -1,5 +1,6 @@
-import workman from './src/workman'
+import workman from './src/workman/index'
 
-const workman = workman();
+const app = workman('fetch');
 
-workman.get()
+app.use()
+

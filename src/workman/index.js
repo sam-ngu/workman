@@ -1,11 +1,38 @@
-export function workman(eventType = "fetch") {
-    const middlewares = [];
+import { createResponse } from "./response";
 
-    function runMiddlewares() {
-        for (let index = 0; index < middlewares.length; index++) {
-            const middleware = middlewares[index];
-            middleware();
-        }
+export default (eventType = "fetch") => {
+    const middlewares = [];
+    const allowableEventListeners = ["fetch"];
+
+    if (!allowableEventListeners.includes(eventType)) {
+        throw new Error("Unsupported event " + eventType);
+    }
+
+    function runMiddlewares(event) {
+        const request = event.request.clone();
+        const method = request.method.toLowerCase();
+        const url = new URL(request.url);
+
+        const response = createResponse();
+        
+        /**
+         * Run the next middleware
+         * @param {Number} index 
+         */
+        const getNextMiddleware = function(index){
+            return function(){
+                if(request.bodyUsed || response._hasSent){
+                    throw new Error("Request body used or response sent. ");
+                }
+                if(index < middlewares.length){
+                    return middlewares[index](request, response, getNextMiddleware(index + 1))
+                }
+            }
+        };
+
+        // only move on to the next middleware if getNextMiddleware() is called
+        getNextMiddleware(index)();
+        
     }
 
     return {
@@ -27,27 +54,35 @@ export function workman(eventType = "fetch") {
 
         listen() {
             self.addEventListener(eventType, async (event) => {
-                runMiddlewares()
-                const request = event.request.clone();
-                const method = request.method.toLowerCase();
-                const url = new URL(request.url);
-                if(method === 'get'){
+                runMiddlewares(event);
 
-                    // startwith or exact match? 
-                    // allow user to pass in matcher function
-                    // wildcard?
-                    // regex?
+                // startwith or exact match?
+                // allow user to pass in matcher function
+                // wildcard?
+                // regex?
+                // TODO: check for options
+                // FIXME: this is only applicable to fetch request
+                const handlers = this[`_${event.request.method}Handler`];
 
-                    const found = this._getHandlers.find((handlerObject) => {
-                        return url.pathname === handlerObject.uri
-                    })
-                    
+                // get the correct handlers array
+                if (handlers === undefined) {
+                    console.log("Unsupported method, relaying request to fetch.");
+                    event.respondWith(fetch(request));
+                    return;
                 }
+
+                const found = this._getHandlers.find((handlerObject) => {
+                    return url.pathname === handlerObject.uri;
+                });
+
             });
         },
 
         get(uri, handler, options) {
-            this._getHandlers.push({uri, handler, options })
+            this.use((req, res, next) => {
+
+            })
+            this._getHandlers.push({ uri, handler, options });
         },
 
         post(uri, handler, options) {
@@ -66,4 +101,4 @@ export function workman(eventType = "fetch") {
             this._deleteHandlers.push({ uri, handler, options });
         },
     };
-}
+};
