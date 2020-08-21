@@ -3,7 +3,7 @@ export const http = {
     // {
     //     uri: 'url',
     //     handler: a handler function,
-    //     options: an option object
+    //     options: an option object, contain generic options for the current url
     // }
     _getHandlers: [],
     _postHandlers: [],

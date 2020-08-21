@@ -25,7 +25,7 @@ export default (eventType = "fetch") => {
                     throw new Error("Request body used or response sent. ");
                 }
                 if(index < middlewares.length){
-                    return middlewares[index](request, response, getNextMiddleware(index + 1))
+                    return middlewares[index](request, response, getNextMiddleware(index + 1), event);
                 }
             }
         };
@@ -36,7 +36,6 @@ export default (eventType = "fetch") => {
     }
 
     return {
-        ...http,
 
         use(middleware) {
             middlewares.push(middleware);

@@ -4,14 +4,16 @@
   "description": "A service worker framework inspired by Express.js",
   "main": "sw.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "sam-ngu",
   "license": "ISC",
   "homepage": "https://github.com/sam-ngu/workman#readme",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/sam-ngu/workman.git"
+    "type": "git",
+    "url": "https://github.com/sam-ngu/workman.git"
   },
-  "dependencies": {}
+  "dev-dependencies": {
+    "jest": "^26.4.1"
+  }
 }
