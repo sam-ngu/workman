@@ -40,15 +40,12 @@ export default (eventType = "fetch") => {
         },
 
         listen() {
-            self.addEventListener(eventType, async (event) => {
+            self.addEventListener(eventType, (event) => {
                 // init response object
                 const response = createResponse();
 
                 runMiddlewares(event, response);
 
-                if(eventType.toLowerCase() === 'fetch'){
-                    this.handleFetch(event, response)
-                }
             });
         },
 
