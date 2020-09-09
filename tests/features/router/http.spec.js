@@ -1,7 +1,7 @@
-const {http} = require('./../../src/workman/http');
-import {createResponse} from '../../src/workman/utils/response';
-import {eventFactory} from "../factories/event-factory";
-import {urlFactory} from "../url-factory";
+import { http } from '../../../src/workman/http'
+import {createResponse} from '../../../src/workman/utils/response';
+import {eventFactory} from "../../factories/event-factory";
+import {urlFactory} from "../../url-factory";
 
 
 function addHttpTest(method){
@@ -39,7 +39,7 @@ describe('Http middleware', () => {
     it('adds put request', () => {
         addHttpTest('put');
     });
-    
+
     it('adds delete request', () => {
         addHttpTest('delete');
     });
