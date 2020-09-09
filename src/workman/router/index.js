@@ -28,6 +28,10 @@ export default function(){
         Http.delete(uri, handler, options);
     };
 
+    router.put = function (uri, handler, options){
+        Http.put(uri, handler, options);
+    };
+
     return router;
 }
 

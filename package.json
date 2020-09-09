@@ -3,8 +3,11 @@
   "version": "0.1.0-alpha",
   "description": "A service worker framework inspired by Express.js",
   "main": "sw.js",
+  "type": "module",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "webpack --mode production --module-bind js=babel-loader",
+    "dev": "webpack --mode development --module-bind js=babel-loader"
   },
   "author": "sam-ngu",
   "license": "ISC",
@@ -13,7 +16,12 @@
     "type": "git",
     "url": "https://github.com/sam-ngu/workman.git"
   },
-  "dev-dependencies": {
-    "jest": "^26.4.1"
+  "devDependencies": {
+    "@babel/preset-env": "^7.11.5",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.1.0",
+    "jest": "^26.4.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
   }
 }

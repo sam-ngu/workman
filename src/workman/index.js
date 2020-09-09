@@ -1,5 +1,4 @@
 import { createResponse } from "./utils/response";
-import { http } from "./http";
 
 export default (eventType = "fetch") => {
     const middlewares = [];
@@ -14,7 +13,6 @@ export default (eventType = "fetch") => {
         const method = request.method.toLowerCase();
         const url = new URL(request.url);
 
-        
         /**
          * Run the next middleware
          * @param {Number} index 
