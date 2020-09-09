@@ -46,9 +46,6 @@ export default (eventType = "fetch") => {
 
                 runMiddlewares(event, response);
 
-                if(eventType.toLowerCase() === 'fetch'){
-                    this.handleFetch(event, response)
-                }
             });
         },
 

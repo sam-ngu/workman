@@ -9,6 +9,9 @@
     "build": "webpack --mode production --module-bind js=babel-loader",
     "dev": "webpack --mode development --module-bind js=babel-loader"
   },
+  "jest": {
+    "testEnvironment": "jsdom"
+  },
   "author": "sam-ngu",
   "license": "ISC",
   "homepage": "https://github.com/sam-ngu/workman#readme",

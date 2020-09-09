@@ -22,7 +22,7 @@ export const http = {
         // regex?
         // TODO: check for options
         // FIXME: this is only applicable to fetch request
-        const handlers = this[`_${method}Handler`];
+        const handlers = this[`_${method}Handlers`];
 
         // get the correct handlers array
         if (handlers === undefined) {
@@ -35,7 +35,7 @@ export const http = {
             return url.pathname === handlerObject.uri;
         });
 
-        if(found === -1){
+        if(found === undefined){
             console.log('undefined url, relaying request to fetch');
             event.respondWith(fetch(request));
             return;
