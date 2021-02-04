@@ -2,12 +2,14 @@ import { http as Http } from './../http';
 
 export default function(){
 
-    function router (req, res, next, event){
+    async function router (req, res, next, event){
         // this is meant to handle http requests only
         if(!event.destination === 'fetch'){
-            next()
+            return next();
         }
-        Http.handleFetch(event, res);
+        // returning a http response
+        return Http.handleFetch(event, res);
+
     }
 
     // const methods = ['get', 'post', 'patch', 'delete', 'put'];

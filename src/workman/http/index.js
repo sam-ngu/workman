@@ -11,7 +11,7 @@ export const http = {
     _deleteHandlers: [],
     _putHandlers: [],
 
-    handleFetch(event, response) {
+    async handleFetch(event, response) {
         const request = event.request.clone();
         const method = request.method.toLowerCase();
         const url = new URL(request.url);
@@ -27,8 +27,7 @@ export const http = {
         // get the correct handlers array
         if (handlers === undefined) {
             console.log("Unsupported method, relaying request to fetch.");
-            event.respondWith(fetch(request));
-            return;
+            return fetch(request);
         }
 
         const found = this[`_${method}Handlers`].find((handlerObject) => {
@@ -37,8 +36,7 @@ export const http = {
 
         if(found === undefined){
             console.log('undefined url, relaying request to fetch');
-            event.respondWith(fetch(request));
-            return;
+            return fetch(request)
         }
 
         if (request.bodyUsed || response._hasSent) {
@@ -46,8 +44,10 @@ export const http = {
         }
 
         // pass in req, response
-        found.handler(request, response)
+        await found.handler(request, response);
 
+        // get the JS response object
+        return response.httpResponse();
     },
 
     get(uri, handler, options) {
