@@ -29,7 +29,7 @@ export default (eventType = "fetch") => {
         }
 
         // only move on to the next middleware if getNextMiddleware() is called
-        getNextMiddleware(0)();
+        return getNextMiddleware(0)();
 
     }
 
@@ -45,10 +45,10 @@ export default (eventType = "fetch") => {
                 const response = createResponse(event);
                 // await initMiddlewares(event, response)
 
-                runMiddlewares(event.clone(), response);
+                const result = runMiddlewares(event, response);
 
-                event.respondWith();
-                console.log('end listen')
+                event.respondWith(result);
+                console.log('end listen');
 
             });
         },
