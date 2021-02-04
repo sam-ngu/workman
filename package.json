@@ -2,7 +2,7 @@
   "name": "workman-sw",
   "version": "0.1.0-alpha",
   "description": "A service worker framework inspired by Express.js",
-  "main": "sw.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "jest",

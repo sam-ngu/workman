@@ -15,9 +15,9 @@ export default (eventType = "fetch") => {
 
         /**
          * Run the next middleware
-         * @param {Number} index 
+         * @param {Number} index
          */
-        const getNextMiddleware = function(index){
+        function getNextMiddleware(index){
             return function(){
                 if(request.bodyUsed || response._hasSent){
                     throw new Error("Request body used or response sent. ");
@@ -26,11 +26,11 @@ export default (eventType = "fetch") => {
                     return middlewares[index](request, response, getNextMiddleware(index + 1), event);
                 }
             }
-        };
+        }
 
         // only move on to the next middleware if getNextMiddleware() is called
-        getNextMiddleware(index)();
-        
+        getNextMiddleware(0)();
+
     }
 
     return {
@@ -40,11 +40,15 @@ export default (eventType = "fetch") => {
         },
 
         listen() {
-            self.addEventListener(eventType, (event) => {
+            self.addEventListener(eventType, async (event) => {
                 // init response object
-                const response = createResponse();
+                const response = createResponse(event);
+                // await initMiddlewares(event, response)
 
-                runMiddlewares(event, response);
+                runMiddlewares(event.clone(), response);
+
+                event.respondWith();
+                console.log('end listen')
 
             });
         },
