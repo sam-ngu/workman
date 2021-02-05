@@ -1,3 +1,5 @@
+import {parseUrlParams} from "../utils/url-parser/url-parser";
+
 export const http = {
     // each item should look like:
     // {
@@ -16,6 +18,9 @@ export const http = {
         const method = request.method.toLowerCase();
         const url = new URL(request.url);
 
+        // TODO: parse dynamic url param in req
+        // set to param object
+
         // startwith or exact match?
         // allow user to pass in matcher function
         // wildcard?
@@ -31,7 +36,19 @@ export const http = {
         }
 
         const found = this[`_${method}Handlers`].find((handlerObject) => {
-            return url.pathname === handlerObject.uri;
+            // TODO: check for dynamic url eg :id
+            const parsed = parseUrlParams(handlerObject.uri, url.pathname);
+
+            let handlerUri = handlerObject.uri;
+
+            // replace handlerObject.uri param with actual
+            if(Object.keys(parsed).length !== 0){
+
+                for (const key in parsed) {
+                    handlerUri = handlerUri.replace(`:${key}`, parsed[key]);
+                }
+            }
+            return url.pathname === handlerUri;
         });
 
         if(found === undefined){
@@ -42,6 +59,8 @@ export const http = {
         if (request.bodyUsed || response._hasSent) {
             throw new Error("Request body used or response sent. ");
         }
+
+        request.params = parseUrlParams(found.uri, url.pathname);
 
         // pass in req, response
         await found.handler(request, response);
