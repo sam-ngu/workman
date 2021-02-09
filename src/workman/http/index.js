@@ -18,8 +18,7 @@ export const http = {
         const method = request.method.toLowerCase();
         const url = new URL(request.url);
 
-        // TODO: parse dynamic url param in req
-        // set to param object
+
 
         // startwith or exact match?
         // allow user to pass in matcher function
@@ -36,7 +35,7 @@ export const http = {
         }
 
         const found = this[`_${method}Handlers`].find((handlerObject) => {
-            // TODO: check for dynamic url eg :id
+            // parsing dynamic url eg :id
             const parsed = parseUrlParams(handlerObject.uri, url.pathname);
 
             let handlerUri = handlerObject.uri;
@@ -60,6 +59,43 @@ export const http = {
             throw new Error("Request body used or response sent. ");
         }
 
+        // TODO: parse req query
+
+        // TODO: build body for req
+
+        let body;
+
+
+        // not all request has body..
+        try{
+            body = await request.clone().formData();
+
+            // for (const entry of body) {
+            //     const [key, value] = entry
+            //     console.log({key})
+            // }
+
+        }catch ( err){
+            // should use json
+
+            try{
+
+                body = await request.clone().json();
+            }catch (err) {
+                if (err instanceof SyntaxError){
+                    body = undefined;
+                }else {
+                    // request has no body
+                    throw err;
+                }
+
+            }
+        }
+
+        request.body = body;
+
+
+        // set param object from dynamic urm params
         request.params = parseUrlParams(found.uri, url.pathname);
 
         // pass in req, response
