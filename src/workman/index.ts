@@ -1,4 +1,5 @@
-import { createResponse } from "./utils/response";
+import {createResponse} from "./utils/response";
+
 
 // config object
 /*
@@ -7,7 +8,12 @@ import { createResponse } from "./utils/response";
 *
 * }
 * */
-export default (eventType = "fetch", config = {}) => {
+export default (
+    eventType = "fetch",
+    config?: {
+        urls: Array<string>
+    }
+) => {
     const middlewares = [];
     const allowableEventListeners = ["fetch"];
 
@@ -24,12 +30,12 @@ export default (eventType = "fetch", config = {}) => {
          * Run the next middleware
          * @param {Number} index
          */
-        function getNextMiddleware(index){
-            return function(){
-                if(request.bodyUsed || response._hasSent){
+        function getNextMiddleware(index) {
+            return function () {
+                if (request.bodyUsed || response._hasSent) {
                     throw new Error("Request body used or response sent. ");
                 }
-                if(index < middlewares.length){
+                if (index < middlewares.length) {
                     return middlewares[index](request, response, getNextMiddleware(index + 1), event);
                 }
             }
@@ -47,13 +53,14 @@ export default (eventType = "fetch", config = {}) => {
         },
 
         listen() {
-            self.addEventListener(eventType, async (event) => {
+            // @ts-ignore
+            self.addEventListener(eventType, async (event: FetchEvent) => {
 
                 // only listen to url defined in config
-                config.url.every((regex) => event.request.url.match(regex));
+                const matched = config?.urls.every((regex) => event.request.url.match(regex));
 
-                if(!event.request.url.includes('/api/v1')){
-                    return ;
+                if (!matched) {
+                    return;
                 }
 
                 // init response object
@@ -68,6 +75,6 @@ export default (eventType = "fetch", config = {}) => {
             });
         },
 
-       
+
     };
 };

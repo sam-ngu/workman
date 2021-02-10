@@ -1,4 +1,5 @@
-export const createResponse = function(event) {
+// @ts-ignore
+export function createResponse(event: FetchEvent) {
     return {
         _hasSent: false,
         _responseBody: new Response(),
@@ -6,15 +7,12 @@ export const createResponse = function(event) {
          *
          * @param {Object} body 
          */
-        json( body){
+        json( body: object): void{
             this._hasSent = true;
-
-
             this._responseBody = new Response(JSON.stringify(body));
-
         },
 
-        httpResponse(){
+        httpResponse(): Response{
             return this._responseBody
         }
     }
