@@ -1,4 +1,6 @@
 import {createResponse} from "./utils/response";
+import type {middleware, WorkmanResponse} from "../types/workman";
+import {FetchEvent, Response} from "../types/service-worker";
 
 
 // config object
@@ -9,28 +11,28 @@ import {createResponse} from "./utils/response";
 * }
 * */
 export default (
-    eventType = "fetch",
+    eventType: string = "fetch",
     config?: {
         urls: Array<string>
     }
 ) => {
-    const middlewares = [];
+    const middlewares: Array<middleware> = [];
     const allowableEventListeners = ["fetch"];
 
     if (!allowableEventListeners.includes(eventType)) {
         throw new Error("Unsupported event " + eventType);
     }
 
-    function runMiddlewares(event, response) {
+    function runMiddlewares(event: FetchEvent, response: WorkmanResponse): Response {
         const request = event.request.clone();
         const method = request.method.toLowerCase();
         const url = new URL(request.url);
 
         /**
          * Run the next middleware
-         * @param {Number} index
+         * @param {number} index
          */
-        function getNextMiddleware(index) {
+        function getNextMiddleware(index: number) {
             return function () {
                 if (request.bodyUsed || response._hasSent) {
                     throw new Error("Request body used or response sent. ");
@@ -38,17 +40,20 @@ export default (
                 if (index < middlewares.length) {
                     return middlewares[index](request, response, getNextMiddleware(index + 1), event);
                 }
+
+                throw new Error('No more middleware available to run.');
+
             }
         }
 
         // only move on to the next middleware if getNextMiddleware() is called
-        return getNextMiddleware(0)();
+        return getNextMiddleware(0)() ;
 
     }
 
     return {
 
-        use(middleware) {
+        use(middleware: middleware) {
             middlewares.push(middleware);
         },
 

@@ -9,6 +9,8 @@ describe('test url parser', () => {
 
             const actual = '/api/v1/trades/2/hey';
 
+            // mock Request?
+
             const parsed = parseUrlParams(template, actual);
 
             expect(parsed.id).toBe(2);

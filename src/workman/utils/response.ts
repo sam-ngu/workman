@@ -1,5 +1,6 @@
+
 // @ts-ignore
-export function createResponse(event: FetchEvent) {
+export function createResponse(event: FetchEvent): WorkmanResponse {
     return {
         _hasSent: false,
         _responseBody: new Response(),

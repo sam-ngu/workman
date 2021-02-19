@@ -16,20 +16,20 @@
  * @license: ISC
  */
 
-interface Navigator {
+export interface Navigator {
     serviceWorker: ServiceWorkerContainer;
 }
 
-interface ExtendableEvent extends Event {
+export interface ExtendableEvent extends Event {
     waitUntil(fn: Promise<any>): void;
 }
 
-interface ServiceWorker extends Worker {
+export interface ServiceWorker extends Worker {
     scriptURL: string;
     state: ServiceWorkerState;
 }
 
-interface ServiceWorkerContainer {
+export interface ServiceWorkerContainer {
     controller?: ServiceWorker;
     oncontrollerchange?: (event?: Event) => any;
     onerror?: (event?: Event) => any;
@@ -40,11 +40,11 @@ interface ServiceWorkerContainer {
     register(url: string, options?: ServiceWorkerRegistrationOptions): Promise<ServiceWorkerRegistration>;
 }
 
-interface ServiceWorkerNotificationOptions {
+export interface ServiceWorkerNotificationOptions {
     tag?: string;
 }
 
-interface ServiceWorkerRegistration {
+export interface ServiceWorkerRegistration {
     active?: ServiceWorker;
     installing?: ServiceWorker;
     onupdatefound?: (event?: Event) => any;
@@ -56,7 +56,7 @@ interface ServiceWorkerRegistration {
     unregister(): Promise<boolean>;
 }
 
-interface ServiceWorkerRegistrationOptions {
+export interface ServiceWorkerRegistrationOptions {
     scope?: string;
 }
 
@@ -64,7 +64,7 @@ type ServiceWorkerState = "installing" | "installed" | "activating" | "activated
 
 // CacheStorage API
 
-interface Cache {
+export interface Cache {
     add(request: Request): Promise<void>;
     addAll(requestArray: Array<Request>): Promise<void>;
     'delete'(request: Request, options?: CacheStorageOptions): Promise<boolean>;
@@ -74,7 +74,7 @@ interface Cache {
     put(request: Request|string, response: Response): Promise<void>;
 }
 
-interface CacheStorage {
+export interface CacheStorage {
     'delete'(cacheName: string): Promise<boolean>;
     has(cacheName: string): Promise<boolean>;
     keys(): Promise<Array<string>>;
@@ -82,7 +82,7 @@ interface CacheStorage {
     open(cacheName: string): Promise<Cache>;
 }
 
-interface CacheStorageOptions {
+export interface CacheStorageOptions {
     cacheName?: string;
     ignoreMethod?: boolean;
     ignoreSearch?: boolean;
@@ -91,25 +91,25 @@ interface CacheStorageOptions {
 
 // Client API
 
-interface Client {
+export interface Client {
     frameType: ClientFrameType;
     id: string;
     url: string;
 }
 
-interface Clients {
+export interface Clients {
     claim(): Promise<any>;
     get(id: string): Promise<Client>;
     matchAll(options?: ClientMatchOptions): Promise<Array<Client>>;
     openWindow(url: string): Promise<WindowClient>;
 }
 
-interface ClientMatchOptions {
+export interface ClientMatchOptions {
     includeUncontrolled?: boolean;
     type?: ClientMatchTypes;
 }
 
-interface WindowClient {
+export interface WindowClient {
     focused: boolean;
     visibilityState: WindowClientState;
     focus(): Promise<WindowClient>;
@@ -122,7 +122,7 @@ type WindowClientState = "hidden" | "visible" | "prerender" | "unloaded";
 
 // Fetch API
 
-interface Body {
+export interface Body {
     bodyUsed: boolean;
     arrayBuffer(): Promise<ArrayBuffer>;
     blob(): Promise<Blob>;
@@ -131,19 +131,19 @@ interface Body {
     text(): Promise<string>;
 }
 
-interface FetchEvent extends Event {
+export interface FetchEvent extends Event {
     request: Request;
     respondWith(response: Promise<Response>|Response): Promise<Response>;
 }
 
-interface InstallEvent extends ExtendableEvent {
+export interface InstallEvent extends ExtendableEvent {
     activeWorker: ServiceWorker
 }
 
-interface ActivateEvent extends ExtendableEvent {
+export interface ActivateEvent extends ExtendableEvent {
 }
 
-interface Headers {
+export interface Headers {
     new(init?: any): Headers;
     append(name: string, value: string): void;
     'delete'(name: string): void;
@@ -156,7 +156,7 @@ interface Headers {
     values(): Array<string>;
 }
 
-interface Request extends Body {
+export interface Request extends Body {
     new(url: string, init?: {
         method?: string,
         url?: string,
@@ -170,6 +170,7 @@ interface Request extends Body {
     }): Request;
     cache: RequestCache;
     credentials: RequestCredentials;
+    destination: string,
     headers: Headers;
     integrity: string;
     method: string;
@@ -181,7 +182,7 @@ interface Request extends Body {
     clone(): Request;
 }
 
-interface Response extends Body {
+export interface Response extends Body {
     new(url: string): Response;
     new(body: Blob|BufferSource|FormData|String, init: {
         status?: number,
@@ -211,7 +212,7 @@ type ResponseType = "basic" | "cores" | "error" | "opaque";
 
 // Notification API
 
-interface Notification {
+export interface Notification {
     body: string;
     data: any;
     icon: string;
@@ -225,31 +226,31 @@ interface Notification {
     requestPermission(): Promise<string>;
 }
 
-interface NotificationEvent {
+export interface NotificationEvent {
     action: string;
     notification: Notification;
 }
 
 // Push API
 
-interface PushEvent extends ExtendableEvent {
+export interface PushEvent extends ExtendableEvent {
     data: PushMessageData;
 }
 
-interface PushManager {
+export interface PushManager {
     getSubscription(): Promise<PushSubscription>;
     permissionState(): Promise<string>;
     subscribe(): Promise<PushSubscription>;
 }
 
-interface PushMessageData {
+export interface PushMessageData {
     arrayBuffer(): ArrayBuffer;
     blob(): Blob;
     json(): any;
     text(): string;
 }
 
-interface PushSubscription {
+export interface PushSubscription {
     endpoint: string;
     getKey(method: string): ArrayBuffer;
     toJSON(): string;
@@ -258,7 +259,7 @@ interface PushSubscription {
 
 // Sync API
 
-interface SyncEvent extends Event {
+export interface SyncEvent extends Event {
     lastChance: boolean;
     tag: string;
 }
@@ -283,3 +284,5 @@ declare var registration: ServiceWorkerRegistration;
 
 declare function fetch(request: Request|string): Promise<Response>;
 declare function skipWaiting(): void;
+
+
