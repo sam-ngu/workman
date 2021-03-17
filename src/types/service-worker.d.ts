@@ -179,6 +179,8 @@ export interface Request extends Body {
     referrerPolicy: ReferrerPolicy;
     redirect: RequestRedirect;
     url: string;
+    // params added by workman
+    params: any;
     clone(): Request;
 }
 

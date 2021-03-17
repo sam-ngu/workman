@@ -1,8 +1,11 @@
 {
+
   "compilerOptions": {
+    "noEmit": false,
     "module": "commonjs",
     "target": "es5",
-    "sourceMap": true
+    "sourceMap": true,
+    "declaration": true
   },
   "exclude": [
     "node_modules"

@@ -58,7 +58,7 @@ export default (
         },
 
         listen() {
-            // @ts-ignore
+
             self.addEventListener(eventType, async (event: FetchEvent) => {
 
                 // only listen to url defined in config
@@ -69,7 +69,7 @@ export default (
                 }
 
                 // init response object
-                const response = createResponse(event);
+                const response = createResponse();
                 // await initMiddlewares(event, response)
 
                 const result = runMiddlewares(event, response);

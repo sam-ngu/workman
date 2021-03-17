@@ -1,6 +1,8 @@
 import {FetchEvent, Request, Response} from "./service-worker";
 
-interface WorkmanResponse {
+export type middleware = (req: Request, res: WorkmanResponse, next: () => Response, event: FetchEvent) => Response
+
+export interface WorkmanResponse {
     _hasSent: boolean,
     _responseBody: Response,
     httpResponse(): Response,
@@ -8,21 +10,16 @@ interface WorkmanResponse {
 }
 
 
-interface Router {
-    get(uri: string, handler: middleware, options: object),
-    post(uri: string, handler: middleware, options: object),
-    patch(uri: string, handler: middleware, options: object),
-    put(uri: string, handler: middleware, options: object),
-    delete(uri: string, handler: middleware, options: object),
+export interface RouterInterface {
+    get(uri: string, handler: middleware, options?: any),
+    post(uri: string, handler: middleware, options?: any),
+    patch(uri: string, handler: middleware, options?: any),
+    put(uri: string, handler: middleware, options?: any),
+    delete(uri: string, handler: middleware, options?: any),
 
 }
 
+export interface WorkmanInterface {
 
-type middleware = (req: Request, res: WorkmanResponse, next: () => Response, event: FetchEvent) => Response
-
-export type {
-    WorkmanResponse,
-    middleware,
-    Router,
 }
 

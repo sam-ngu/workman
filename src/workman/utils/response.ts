@@ -1,9 +1,13 @@
+import {WorkmanResponse} from "../../types/workman";
 
-// @ts-ignore
-export function createResponse(event: FetchEvent): WorkmanResponse {
+
+
+export function createResponse(): WorkmanResponse {
     return {
         _hasSent: false,
+        // @ts-ignore
         _responseBody: new Response(),
+
         /**
          *
          * @param {Object} body 
@@ -12,7 +16,7 @@ export function createResponse(event: FetchEvent): WorkmanResponse {
             this._hasSent = true;
             this._responseBody = new Response(JSON.stringify(body));
         },
-
+        // @ts-ignore
         httpResponse(): Response{
             return this._responseBody
         }

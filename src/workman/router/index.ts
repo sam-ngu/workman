@@ -1,8 +1,9 @@
 import { http as Http } from './../http';
-import {middleware, Router, WorkmanResponse} from "../../types/workman";
-import {FetchEvent, Response} from "../../types/service-worker";
 
-export default function(): Router{
+import {FetchEvent, Response} from "../../types/service-worker";
+import {RouterInterface, WorkmanResponse} from "../../types/workman";
+
+export default function(): RouterInterface{
 
 
     async function router (req: Request, res: WorkmanResponse, next: Function, event: FetchEvent): Promise<Response>{
@@ -15,35 +16,25 @@ export default function(): Router{
 
     }
 
-    const methods = ['get', 'post', 'patch', 'delete', 'put'];
-
-    for (let i = 0; i < methods.length; i++) {
-        const method = methods[i];
-        router[method] = function(uri, handler, options){
-            Http[method](uri, handler, options);
-        };
-    }
+    // const methods = ['get', 'post', 'patch', 'delete', 'put'];
+    //
+    // for (let i = 0; i < methods.length; i++) {
+    //     const method = methods[i];
+    //     router[method] = function(uri, handler, options){
+    //         Http[method](uri, handler, options);
+    //     };
+    // }
 
     // need these to enable autocompleting TODO: convert everything to typescript??
-    // router.get = function(uri, handler, options){
-    //     Http.get(uri, handler, options);
-    // };
-    //
-    // router.post = function (uri, handler, options) {
-    //     Http.post(uri, handler, options);
-    // };
-    //
-    // router.patch = function (uri, handler, options) {
-    //     Http.patch(uri, handler, options);
-    // };
-    //
-    // router.delete = function (uri, handler, options) {
-    //     Http.delete(uri, handler, options);
-    // };
-    //
-    // router.put = function (uri, handler, options){
-    //     Http.put(uri, handler, options);
-    // };
+    router.get = Http.get;
+
+    router.post = Http.post;
+
+    router.patch = Http.patch;
+
+    router.delete = Http.delete;
+
+    router.put = Http.put;
 
     return router;
 }
