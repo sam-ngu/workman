@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var http_1 = require("./../http");
 function default_1() {
     function router(req, res, next, event) {
@@ -59,12 +59,21 @@ function default_1() {
     //     };
     // }
     // need these to enable autocompleting TODO: convert everything to typescript??
-    router.get = http_1.http.get;
-    router.post = http_1.http.post;
-    router.patch = http_1.http.patch;
-    router.delete = http_1.http.delete;
-    router.put = http_1.http.put;
+    router.get = function (uri, handler, options) {
+        http_1.http.get(uri, handler, options);
+    };
+    router.post = function (uri, handler, options) {
+        http_1.http.post(uri, handler, options);
+    };
+    router.patch = function (uri, handler, options) {
+        http_1.http.patch(uri, handler, options);
+    };
+    router["delete"] = function (uri, handler, options) {
+        http_1.http["delete"](uri, handler, options);
+    };
+    router.put = function (uri, handler, options) {
+        http_1.http.put(uri, handler, options);
+    };
     return router;
 }
-exports.default = default_1;
-//# sourceMappingURL=index.js.map
+exports["default"] = default_1;

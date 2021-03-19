@@ -1,2 +1,17 @@
 // export * as sw from './service-worker';
-export {WorkmanResponse, RouterInterface} from './workman';
+
+
+import {WorkmanResponse, RouterInterface} from './workman';
+
+declare function Router(): RouterInterface;
+
+export {
+    Router,
+    WorkmanResponse,
+}
+// declare module "workman-sw" {
+//     function Router(): RouterInterface
+//     export {
+//         Router
+//     }
+// }

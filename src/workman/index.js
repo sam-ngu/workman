@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var response_1 = require("./utils/response");
 // config object
 /*
@@ -44,7 +44,7 @@ var response_1 = require("./utils/response");
 *
 * }
 * */
-exports.default = (function (eventType, config) {
+exports["default"] = (function (eventType, config) {
     if (eventType === void 0) { eventType = "fetch"; }
     var middlewares = [];
     var allowableEventListeners = ["fetch"];
@@ -79,7 +79,6 @@ exports.default = (function (eventType, config) {
         },
         listen: function () {
             var _this = this;
-            // @ts-ignore
             self.addEventListener(eventType, function (event) { return __awaiter(_this, void 0, void 0, function () {
                 var matched, response, result;
                 return __generator(this, function (_a) {
@@ -94,7 +93,6 @@ exports.default = (function (eventType, config) {
                     return [2 /*return*/];
                 });
             }); });
-        },
+        }
     };
 });
-//# sourceMappingURL=index.js.map

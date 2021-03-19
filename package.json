@@ -8,7 +8,8 @@
   "scripts": {
     "test": "jest",
     "build": "webpack --mode production --module-bind js=babel-loader",
-    "dev": "webpack --mode development --module-bind js=babel-loader"
+    "dev": "webpack --mode development --module-bind js=babel-loader",
+    "compile": "tsc index.ts"
   },
   "jest": {
     "testEnvironment": "jsdom"

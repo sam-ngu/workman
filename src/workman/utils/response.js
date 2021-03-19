@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.createResponse = void 0;
 function createResponse() {
     return {
@@ -21,4 +21,3 @@ function createResponse() {
     };
 }
 exports.createResponse = createResponse;
-//# sourceMappingURL=response.js.map

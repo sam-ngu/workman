@@ -5,7 +5,6 @@ import {RouterInterface, WorkmanResponse} from "../../types/workman";
 
 export default function(): RouterInterface{
 
-
     async function router (req: Request, res: WorkmanResponse, next: Function, event: FetchEvent): Promise<Response>{
         // this is meant to handle http requests only
         if(event.request.destination !== 'fetch'){
@@ -26,15 +25,25 @@ export default function(): RouterInterface{
     // }
 
     // need these to enable autocompleting TODO: convert everything to typescript??
-    router.get = Http.get;
+    router.get = function(uri, handler, options){
+        Http.get(uri, handler, options);
+    };
 
-    router.post = Http.post;
+    router.post = function (uri, handler, options) {
+        Http.post(uri, handler, options);
+    };
 
-    router.patch = Http.patch;
+    router.patch = function (uri, handler, options) {
+        Http.patch(uri, handler, options);
+    };
 
-    router.delete = Http.delete;
+    router.delete = function (uri, handler, options) {
+        Http.delete(uri, handler, options);
+    };
 
-    router.put = Http.put;
+    router.put = function (uri, handler, options){
+        Http.put(uri, handler, options);
+    };
 
     return router;
 }

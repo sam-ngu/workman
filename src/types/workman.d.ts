@@ -1,6 +1,6 @@
 import {FetchEvent, Request, Response} from "./service-worker";
 
-export type middleware = (req: Request, res: WorkmanResponse, next: () => Response, event: FetchEvent) => Response
+export type middleware = (req: Request, res: WorkmanResponse, next: () => Response, event: FetchEvent) => any|Response
 
 export interface WorkmanResponse {
     _hasSent: boolean,
