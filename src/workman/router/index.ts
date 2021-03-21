@@ -8,6 +8,7 @@ export default function(): RouterInterface{
     async function router (req: Request, res: WorkmanResponse, next: Function, event: FetchEvent): Promise<Response>{
         // this is meant to handle http requests only
         // fetch/xhr calls destination property is an empty string
+        // https://developer.mozilla.org/en-US/docs/Web/API/RequestDestination
         if(event.request.destination !== ''){
             return next();
         }
