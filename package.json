@@ -2,12 +2,14 @@
   "name": "workman-sw",
   "version": "0.1.0-alpha",
   "description": "A service worker framework inspired by Express.js",
-  "main": "index.js",
+  "main": "index.ts",
   "type": "module",
+  "types": "src/types/index.d.ts",
   "scripts": {
     "test": "jest",
     "build": "webpack --mode production --module-bind js=babel-loader",
-    "dev": "webpack --mode development --module-bind js=babel-loader"
+    "dev": "webpack --mode development --module-bind js=babel-loader",
+    "compile": "tsc index.ts"
   },
   "jest": {
     "testEnvironment": "jsdom"
@@ -27,5 +29,7 @@
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
   },
-  "dependencies": {}
+  "dependencies": {
+    "parseurl": "^1.3.3"
+  }
 }

@@ -9,6 +9,20 @@
 npm install workman-sw
 ```
 
+## Usage
+
+### Config object
+```js
+
+workman('fetch', {
+    urls: [
+        // an array of regex expression
+        /\/api\/v1\/\w+/g,
+    ]
+})
+
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
