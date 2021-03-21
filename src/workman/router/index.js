@@ -42,7 +42,7 @@ function default_1() {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 // this is meant to handle http requests only
-                if (event.request.destination !== 'fetch') {
+                if (event.request.destination !== '') {
                     return [2 /*return*/, next()];
                 }
                 // returning a http response

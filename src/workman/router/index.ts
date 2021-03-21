@@ -7,7 +7,8 @@ export default function(): RouterInterface{
 
     async function router (req: Request, res: WorkmanResponse, next: Function, event: FetchEvent): Promise<Response>{
         // this is meant to handle http requests only
-        if(event.request.destination !== 'fetch'){
+        // fetch/xhr calls destination property is an empty string
+        if(event.request.destination !== ''){
             return next();
         }
         // returning a http response

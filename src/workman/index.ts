@@ -47,7 +47,7 @@ export default (
         }
 
         // only move on to the next middleware if getNextMiddleware() is called
-        return getNextMiddleware(0)() ;
+        return getNextMiddleware(0)();
 
     }
 
